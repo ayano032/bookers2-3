@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+      <div class="col-xs-3">
+<h1>User info</h1>
+<div class="profile-container">
+<%= link_to user_path(@user.id) do %><%= attachment_image_tag @user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><%= @user.name %>
+<% end %>
+
+
+ <h3 class="introduction"><%= @user.introduction %></h3>
+ <%= link_to "編集", edit_user_path(@user), class: "btn btn-default" %>
+</div>
+<div class="col-xs-9">
+<table class="table table-striped">
+<h1>Books</h1>
+<% @books.each do |book| %>
+<tr>
+  <td>
+        <%= link_to user_path(book.user_id) do %><%= attachment_image_tag book.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><%= @user.name %>
+      <% end %>
+</td>
+<td>Title:</td>
+<td><%= link_to book.title, book_path(book) %></td>
+<td>Body:</td>
+<td><%=book.body %>
+<%= link_to "edit", edit_book_path(book), class: "btn btn-default" %>
+<%= link_to "destroy", book_path(book.id), method: :delete, class: "btn btn-default" %>
+</td>
+</tr>
+<% end %>
+</table>
+</div>
+ </div>
+  </div>
+
+
+
+
+<h1>New book</h1>
+<%= form_for(@book, url: books_path) do |f| %>
+  <% if @book.errors.any? %>
+    <div id="error_explanation">
+     <h2><%= pluralize(@book.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+        <ul>
+        <% @book.errors.full_messages.each do |message|%>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+      </div>
+  <% end %>
+  <h4>Title</h4>
+  <%= f.text_field :title %>
+  <h4>Body</h4>
+  <%= f.text_area :body %>
+  <%= f.submit 'Create Book' %>
+  <% @book.errors.full_messages.each do |message| %>
+     <div class="form-error">
+     <%= message %>
+     </div>
+  <% end %>
+  <%= paginate @books %>
+<% end %>
+
+
