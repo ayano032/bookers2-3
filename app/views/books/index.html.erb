@@ -5,10 +5,9 @@
 <div class="profile-container">
 <%= link_to user_path(@user.id) do %><%= attachment_image_tag @user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><%= @user.name %>
 <% end %>
-
-
- <h3 class="introduction"><%= @user.introduction %></h3>
+<h3 class="introduction"><%= @user.introduction %></h3>
  <%= link_to "編集", edit_user_path(@user), class: "btn btn-default" %>
+</div>
 </div>
 <div class="col-xs-9">
 <table class="table table-striped">
@@ -16,7 +15,7 @@
 <% @books.each do |book| %>
 <tr>
   <td>
-        <%= link_to user_path(book.user_id) do %><%= attachment_image_tag book.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><%= @user.name %>
+        <%= link_to user_path(book.user_id) do %><%= attachment_image_tag book.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><%= book.user.name %>
       <% end %>
 </td>
 <td>Title:</td>
@@ -31,7 +30,7 @@
 </table>
 </div>
  </div>
-  </div>
+
 
 
 
@@ -61,5 +60,5 @@
   <% end %>
   <%= paginate @books %>
 <% end %>
-
+</div>
 

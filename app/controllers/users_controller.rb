@@ -35,11 +35,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    @user = User.new
     @book = Book.new
-     @books = Book.page(params[:page]).reverse_order
-      @users = User.page(params[:page]).reverse_order
+    @books = Book.page(params[:page]).reverse_order
+     @users = User.page(params[:page]).reverse_order
      @user =current_user
+     @book.user_id = current_user.id
  end
 
  private
