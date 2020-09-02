@@ -55,7 +55,8 @@ def update
        flash[:notice]="successfully"
     redirect_to book_path(@book.id)
    else
-  render :index
+flash[:notice]="error"
+render :edit
    end
   end
 
