@@ -40,10 +40,61 @@
 <td><%= link_to "#{@book.title}", book_path(@book.id) %></td>
 <td>Body:</td>
 <td><%= @book.body %>
-  <% if @user.id == current_user.id%>
+    <% if @user.id == current_user.id%>
 <%= link_to "Edit", edit_book_path(@book.id), class: "btn btn-default" %>
 <%= link_to "Destroy", book_path(@book.id), method: :delete, class: "btn btn-danger" %>
 <%end%>
+  <% if @book.favorited_by?(current_user) %>
+<li>
+  <%= link_to book_favorites_path(@book), method: :delete do %>
+    <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+    <%= @book.favorites.count %> いいね
+  <% end %>
+</li>
+<% else %>
+<li>
+  <%= link_to book_favorites_path(@book), method: :book do %>
+    <i class="fa fa-heart-o" aria-hidden="true"></i>
+    <%= @book.favorites.count %> いいね
+  <% end %>
+</li>
+<% end %>
+<ol>
+  <% @book.book_comments.each do |book_comment| %>
+    <li class="comment">
+      <div class="comment-body bb">
+        <div class="comment-avatar">
+          <div class="avatar">
+          </div>
+        </div>
+        <div class="comment-text">
+          <div class="comment-author clearfix">
+            <a href="#" class="link-author"><%=book_comment.user.name %></a>
+            <span class="comment-meta">
+              <span class="comment-date"><%= book_comment.created_at.strftime('%Y/%m/%d') %></span>
+            </span>
+          </div>
+          <div class="comment-entry"><%= book_comment.comment %>
+             <% if book_comment.user == current_user %>
+            <div>
+              <%= link_to "削除", book_book_comments_path(book_comment.book, book_comment), method: :delete, class: "btn btn-danger pull-right" %>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ol>
+<%= form_for [@book, @book_comment] do |f| %>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
+    </div>
+  </div>
+  <%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
+<% end %>
+
 </td>
 </tr>
 </table>

@@ -56,6 +56,9 @@
 <%= link_to "Destroy", book_path(book.id), method: :delete, class: "btn btn-default" %>
 </td>
 <% end %>
+<td>
+    <%= book.book_comments.count %>コメント
+  </td>
 <% end %>
 </tr>
 </table>
